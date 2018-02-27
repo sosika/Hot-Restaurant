@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Tables Page</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron text-center">
+        <h1><span class="glyphicon glyphicon-fire"></span><strong> Hot Restaurant</strong></h1>
+        <hr>
+        <h2 class="font-weight-bold"><strong>Make your reservation</strong></h2>
+        <br>
+        <a href="/reservation"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-credit-card"></span><strong> Make Reservation</strong></button></a>
+        <a href="/reservation"><button type="button" class="btn btn-light btn-lg"><span class="glyphicon glyphicon-home"></span></button></a>
+      </div>
+      <div class="panel panel-default" id="tableSection">
+        <div class="panel-heading">
+          <h3 class="panel-title"><strong>Current Reservations</strong></h3>
+        </div>
+        <div class="panel panel-body">
+        </div>
+      </div>
+      <div class="panel panel-default" id="waitlistSection">
+        <div class="panel-heading">
+          <h3 class="panel-title"><strong>Waiting List</strong></h3>
+        </div>
+        <div class="panel panel-body">
+        </div>
+      </div>
+      <h5><strong>Control Panel</strong></h5>
+      <footer><a href="/api/waitlist">API waitlist</a> | <a href="/api/tables">API table Link</a></footer>
+      <script type="text/javascript">
+
+          $.get("/api/tables", function(data) {
+            for (var i = 0; i < data.length; i++) {
+              var tableSection = $("<div>");
+              tableSection.addClass("well");
+              tableSection.attr("id", "tables-well-" + i);
+              $("#tableSection").append(tableSection);
+
+              $("#tables-well-" + i).append("<h2>" + data[i].name + "</h2>");
+              $("#tables-well-" + i).append("<h3>phone: " + data[i].phone + "</h4>");
+              $("#tables-well-" + i).append("<h3>email: " + data[i].email + "</h4>");
+              $("#tables-well-" + i).append("<h3>ID: " + data[i].uniqueID + "</h4>");
+            }
+          });
+
+          $.get("/api/waitlist", function(data) {
+            for (var i = 0; i < data.length; i++) {
+              var waitlistSection = $("<div>");
+              waitlistSection.addClass("well");
+              waitlistSection.attr("id", "waitlist-well-" + i);
+              $("#waitlistSection").append(waitlistSection);
+
+              $("#waitlist-well-" + i).append("<h2>" + data[i].name + "</h2>");
+              $("#waitlist-well-" + i).append("<h3>phone: " + data[i].phone + "</h4>");
+              $("#waitlist-well-" + i).append("<h3>email: " + data[i].email + "</h4>");
+              $("#waitlist-well-" + i).append("<h3>ID: " + data[i].uniqueID + "</h4>");
+            }
+          });
+        </script>
+  </body>
+
+</html>
